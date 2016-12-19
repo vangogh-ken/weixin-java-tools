@@ -14,14 +14,11 @@ import java.util.List;
  */
 public class WxCpMessage implements Serializable {
 
-  /**
-   * 
-   */
   private static final long serialVersionUID = -2082278303476631708L;
   private String toUser;
   private String toParty;
   private String toTag;
-  private String agentId;
+  private Integer agentId;
   private String msgType;
   private String content;
   private String mediaId;
@@ -99,11 +96,11 @@ public class WxCpMessage implements Serializable {
     this.toTag = toTag;
   }
 
-  public String getAgentId() {
+  public Integer getAgentId() {
     return this.agentId;
   }
 
-  public void setAgentId(String agentId) {
+  public void setAgentId(Integer agentId) {
     this.agentId = agentId;
   }
 

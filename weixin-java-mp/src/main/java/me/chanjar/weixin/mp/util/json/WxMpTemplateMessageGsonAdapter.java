@@ -12,8 +12,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import me.chanjar.weixin.mp.bean.WxMpTemplateData;
-import me.chanjar.weixin.mp.bean.WxMpTemplateMessage;
+
+import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 
 import java.lang.reflect.Type;
 
@@ -26,9 +27,6 @@ public class WxMpTemplateMessageGsonAdapter implements JsonSerializer<WxMpTempla
     messageJson.addProperty("template_id", message.getTemplateId());
     if (message.getUrl() != null) {
       messageJson.addProperty("url", message.getUrl());
-    }
-    if (message.getTopColor() != null) {
-      messageJson.addProperty("topcolor", message.getTopColor());
     }
 
     JsonObject data = new JsonObject();
