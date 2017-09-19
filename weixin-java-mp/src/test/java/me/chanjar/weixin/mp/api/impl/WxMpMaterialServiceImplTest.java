@@ -7,6 +7,7 @@ import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.fs.FileUtils;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.test.ApiTestModule;
+import me.chanjar.weixin.mp.api.test.TestConstants;
 import me.chanjar.weixin.mp.bean.material.*;
 import org.testng.annotations.*;
 
@@ -15,7 +16,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
-import static org.junit.Assert.*;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
 /**
  * 素材管理相关接口的测试
@@ -45,10 +48,10 @@ public class WxMpMaterialServiceImplTest {
   @DataProvider
   public Object[][] mediaFiles() {
     return new Object[][]{
-      new Object[]{WxConsts.MEDIA_IMAGE, WxConsts.FILE_JPG, "mm.jpeg"},
-      new Object[]{WxConsts.MEDIA_VOICE, WxConsts.FILE_MP3, "mm.mp3"},
-      new Object[]{WxConsts.MEDIA_VIDEO, WxConsts.FILE_MP4, "mm.mp4"},
-      new Object[]{WxConsts.MEDIA_THUMB, WxConsts.FILE_JPG, "mm.jpeg"}
+      new Object[]{WxConsts.MEDIA_IMAGE, TestConstants.FILE_JPG, "mm.jpeg"},
+      new Object[]{WxConsts.MEDIA_VOICE, TestConstants.FILE_MP3, "mm.mp3"},
+      new Object[]{WxConsts.MEDIA_VIDEO, TestConstants.FILE_MP4, "mm.mp4"},
+      new Object[]{WxConsts.MEDIA_THUMB, TestConstants.FILE_JPG, "mm.jpeg"}
     };
   }
 
@@ -172,7 +175,7 @@ public class WxMpMaterialServiceImplTest {
     }
   }
 
-  @Test(dependsOnMethods = {"testAddNews"})
+  @Test(dependsOnMethods = {"testAddNews","testUploadMaterial"})
   public void testGetNewsInfo() throws WxErrorException {
     WxMpMaterialNews wxMpMaterialNewsSingle = this.wxService
       .getMaterialService().materialNewsInfo(this.singleNewsMediaId);
@@ -180,6 +183,9 @@ public class WxMpMaterialServiceImplTest {
       .getMaterialService().materialNewsInfo(this.multiNewsMediaId);
     assertNotNull(wxMpMaterialNewsSingle);
     assertNotNull(wxMpMaterialNewsMultiple);
+
+    System.out.println(wxMpMaterialNewsSingle);
+    System.out.println(wxMpMaterialNewsMultiple);
   }
 
   @Test(dependsOnMethods = {"testGetNewsInfo"})

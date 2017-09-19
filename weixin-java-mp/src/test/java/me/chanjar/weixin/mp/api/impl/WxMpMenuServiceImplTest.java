@@ -93,43 +93,38 @@ public class WxMpMenuServiceImplTest {
   }
 
   @Test
-  public void testCreateMenu2() throws WxErrorException {
-    String a = "{\n"
-      + "  \"menu\": {\n"
-      + "    \"button\": [\n"
-      + "      {\n"
-      + "        \"type\": \"click\",\n"
-      + "        \"name\": \"今日歌曲\",\n"
-      + "        \"key\": \"V1001_TODAY_MUSIC\"\n"
-      + "      },\n"
-      + "      {\n"
-      + "        \"type\": \"click\",\n"
-      + "        \"name\": \"歌手简介\",\n"
-      + "        \"key\": \"V1001_TODAY_SINGER\"\n"
-      + "      },\n"
-      + "      {\n"
-      + "        \"name\": \"菜单\",\n"
-      + "        \"sub_button\": [\n"
-      + "          {\n"
-      + "            \"type\": \"view\",\n"
-      + "            \"name\": \"搜索\",\n"
-      + "            \"url\": \"http://www.soso.com/\"\n"
-      + "          },\n"
-      + "          {\n"
-      + "            \"type\": \"view\",\n"
-      + "            \"name\": \"视频\",\n"
-      + "            \"url\": \"http://v.qq.com/\"\n"
-      + "          },\n"
-      + "          {\n"
-      + "            \"type\": \"click\",\n"
-      + "            \"name\": \"赞一下我们\",\n"
-      + "            \"key\": \"V1001_GOOD\"\n"
-      + "          }\n"
-      + "        ]\n"
-      + "      }\n"
-      + "    ]\n"
-      + "  }\n"
-      + "}";
+  public void testCreateMenu_by_json() throws WxErrorException {
+    String a = "{\n" +
+      "  \"button\": [\n" +
+      "    {\n" +
+      "      \"type\": \"click\",\n" +
+      "      \"name\": \"今日歌曲\",\n" +
+      "      \"key\": \"V1001_TODAY_MUSIC\"\n" +
+      "    },\n" +
+      "    {\n" +
+      "      \"name\": \"菜单\",\n" +
+      "      \"sub_button\": [\n" +
+      "        {\n" +
+      "          \"type\": \"view\",\n" +
+      "          \"name\": \"搜索\",\n" +
+      "          \"url\": \"http://www.soso.com/\"\n" +
+      "        },\n" +
+      "        {\n" +
+      "          \"type\": \"miniprogram\",\n" +
+      "          \"name\": \"wxa\",\n" +
+      "          \"url\": \"http://mp.weixin.qq.com\",\n" +
+      "          \"appid\": \"wx286b93c14bbf93aa\",\n" +
+      "          \"pagepath\": \"pages/lunar/index.html\"\n" +
+      "        },\n" +
+      "        {\n" +
+      "          \"type\": \"click\",\n" +
+      "          \"name\": \"赞一下我们\",\n" +
+      "          \"key\": \"V1001_GOOD\"\n" +
+      "        }\n" +
+      "      ]\n" +
+      "    }\n" +
+      "  ]\n" +
+      "}";
 
     WxMenu menu = WxMenu.fromJson(a);
     System.out.println(menu.toJson());
@@ -143,7 +138,7 @@ public class WxMpMenuServiceImplTest {
     System.out.println(wxMenu.toJson());
   }
 
-  @Test(dependsOnMethods = {"testMenuGet"})
+  @Test(dependsOnMethods = {"testMenuGet","testMenuCreate"})
   public void testMenuDelete() throws WxErrorException {
     this.wxService.getMenuService().menuDelete();
   }
@@ -156,16 +151,18 @@ public class WxMpMenuServiceImplTest {
     button1.setName("今日歌曲");
     button1.setKey("V1001_TODAY_MUSIC");
 
-    WxMenuButton button2 = new WxMenuButton();
-    button2.setType(WxConsts.BUTTON_CLICK);
-    button2.setName("歌手简介");
-    button2.setKey("V1001_TODAY_SINGER");
+//    WxMenuButton button2 = new WxMenuButton();
+//    button2.setType(WxConsts.BUTTON_MINIPROGRAM);
+//    button2.setName("小程序");
+//    button2.setAppId("wx286b93c14bbf93aa");
+//    button2.setPagePath("pages/lunar/index.html");
+//    button2.setUrl("http://mp.weixin.qq.com");
 
     WxMenuButton button3 = new WxMenuButton();
     button3.setName("菜单");
 
     menu.getButtons().add(button1);
-    menu.getButtons().add(button2);
+//    menu.getButtons().add(button2);
     menu.getButtons().add(button3);
 
     WxMenuButton button31 = new WxMenuButton();
