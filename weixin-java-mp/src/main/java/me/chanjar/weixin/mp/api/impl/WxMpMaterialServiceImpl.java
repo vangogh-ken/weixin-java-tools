@@ -5,7 +5,7 @@ import me.chanjar.weixin.common.bean.result.WxError;
 import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.util.fs.FileUtils;
-import me.chanjar.weixin.common.util.http.MediaDownloadRequestExecutor;
+import me.chanjar.weixin.common.util.http.BaseMediaDownloadRequestExecutor;
 import me.chanjar.weixin.common.util.http.MediaUploadRequestExecutor;
 import me.chanjar.weixin.common.util.json.WxGsonBuilder;
 import me.chanjar.weixin.mp.api.WxMpMaterialService;
@@ -34,11 +34,16 @@ public class WxMpMaterialServiceImpl implements WxMpMaterialService {
 
   @Override
   public WxMediaUploadResult mediaUpload(String mediaType, String fileType, InputStream inputStream) throws WxErrorException {
+    File tmpFile = null;
     try {
-      return this.mediaUpload(mediaType, FileUtils.createTmpFile(inputStream, UUID.randomUUID().toString(), fileType));
+      tmpFile = FileUtils.createTmpFile(inputStream, UUID.randomUUID().toString(), fileType);
+      return this.mediaUpload(mediaType, tmpFile);
     } catch (IOException e) {
-      e.printStackTrace();
-      throw new WxErrorException(WxError.newBuilder().setErrorMsg(e.getMessage()).build());
+      throw new WxErrorException(WxError.builder().errorCode(-1).errorMsg(e.getMessage()).build(), e);
+    } finally {
+      if (tmpFile != null) {
+        tmpFile.delete();
+      }
     }
   }
 
@@ -51,7 +56,7 @@ public class WxMpMaterialServiceImpl implements WxMpMaterialService {
   @Override
   public File mediaDownload(String mediaId) throws WxErrorException {
     return this.wxMpService.execute(
-      MediaDownloadRequestExecutor.create(this.wxMpService.getRequestHttp(), this.wxMpService.getWxMpConfigStorage().getTmpDirFile()),
+      BaseMediaDownloadRequestExecutor.create(this.wxMpService.getRequestHttp(), this.wxMpService.getWxMpConfigStorage().getTmpDirFile()),
       MEDIA_GET_URL,
       "media_id=" + mediaId);
   }
@@ -122,7 +127,7 @@ public class WxMpMaterialServiceImpl implements WxMpMaterialService {
   @Override
   public WxMpMaterialNewsBatchGetResult materialNewsBatchGet(int offset, int count) throws WxErrorException {
     Map<String, Object> params = new HashMap<>();
-    params.put("type", WxConsts.MATERIAL_NEWS);
+    params.put("type", WxConsts.MaterialType.NEWS);
     params.put("offset", offset);
     params.put("count", count);
     String responseText = this.wxMpService.post(MATERIAL_BATCHGET_URL, WxGsonBuilder.create().toJson(params));
