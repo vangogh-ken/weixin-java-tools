@@ -1,5 +1,7 @@
 package me.chanjar.weixin.mp.bean;
 
+import lombok.Data;
+import me.chanjar.weixin.common.util.ToStringUtils;
 import me.chanjar.weixin.mp.util.json.WxMpGsonBuilder;
 
 import java.io.Serializable;
@@ -11,13 +13,11 @@ import java.util.List;
  *
  * @author chanjarster
  */
+@Data
 public class WxMpMassNews implements Serializable {
+  private static final long serialVersionUID = 565937155013581016L;
 
-  private List<WxMpMassNewsArticle> articles = new ArrayList<WxMpMassNewsArticle>();
-
-  public List<WxMpMassNewsArticle> getArticles() {
-    return articles;
-  }
+  private List<WxMpMassNewsArticle> articles = new ArrayList<>();
 
   public void addArticle(WxMpMassNewsArticle article) {
     this.articles.add(article);
@@ -28,7 +28,12 @@ public class WxMpMassNews implements Serializable {
   }
 
   public boolean isEmpty() {
-    return articles == null || articles.isEmpty();
+    return this.articles == null || this.articles.isEmpty();
+  }
+
+  @Override
+  public String toString() {
+    return ToStringUtils.toSimpleString(this);
   }
 
   /**
@@ -45,6 +50,7 @@ public class WxMpMassNews implements Serializable {
    *
    * @author chanjarster
    */
+  @Data
   public static class WxMpMassNewsArticle {
     /**
      * (必填) 图文消息缩略图的media_id，可以在基础支持-上传多媒体文件接口中获得
@@ -75,72 +81,9 @@ public class WxMpMassNews implements Serializable {
      */
     private boolean showCoverPic;
 
-    public String getThumbMediaId() {
-      return thumbMediaId;
-    }
-
-    public void setThumbMediaId(String thumbMediaId) {
-      this.thumbMediaId = thumbMediaId;
-    }
-
-    public String getAuthor() {
-      return author;
-    }
-
-    public void setAuthor(String author) {
-      this.author = author;
-    }
-
-    public String getTitle() {
-      return title;
-    }
-
-    public void setTitle(String title) {
-      this.title = title;
-    }
-
-    public String getContentSourceUrl() {
-      return contentSourceUrl;
-    }
-
-    public void setContentSourceUrl(String contentSourceUrl) {
-      this.contentSourceUrl = contentSourceUrl;
-    }
-
-    public String getContent() {
-      return content;
-    }
-
-    public void setContent(String content) {
-      this.content = content;
-    }
-
-    public String getDigest() {
-      return digest;
-    }
-
-    public void setDigest(String digest) {
-      this.digest = digest;
-    }
-
-    public boolean isShowCoverPic() {
-      return showCoverPic;
-    }
-
-    public void setShowCoverPic(boolean showCoverPic) {
-      this.showCoverPic = showCoverPic;
-    }
-
     @Override
     public String toString() {
-      return "WxMpMassNewsArticle [" + "thumbMediaId=" + thumbMediaId + ", author=" + author + ", title=" + title +
-          ", contentSourceUrl=" + contentSourceUrl + ", content=" + content + ", digest=" + digest +
-          ", showCoverPic=" + showCoverPic + "]";
+      return ToStringUtils.toSimpleString(this);
     }
-  }
-
-  @Override
-  public String toString() {
-    return "WxMpMassNews [" + "articles=" + articles + "]";
   }
 }

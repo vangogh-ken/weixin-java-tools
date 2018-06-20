@@ -1,11 +1,3 @@
-/*
- * KINGSTAR MEDIA SOLUTIONS Co.,LTD. Copyright c 2005-2013. All rights reserved.
- *
- * This source code is the property of KINGSTAR MEDIA SOLUTIONS LTD. It is intended
- * only for the use of KINGSTAR MEDIA application development. Reengineering, reproduction
- * arose from modification of the original source, or other redistribution of this source
- * is not permitted without written permission of the KINGSTAR MEDIA SOLUTIONS LTD.
- */
 package me.chanjar.weixin.mp.util.json;
 
 import com.google.gson.*;
@@ -16,6 +8,7 @@ import java.lang.reflect.Type;
 
 public class WxMpMassNewsArticleGsonAdapter implements JsonSerializer<WxMpMassNews.WxMpMassNewsArticle>, JsonDeserializer<WxMpMassNews.WxMpMassNewsArticle> {
 
+  @Override
   public JsonElement serialize(WxMpMassNews.WxMpMassNewsArticle article, Type typeOfSrc, JsonSerializationContext context) {
     JsonObject articleJson = new JsonObject();
 
@@ -35,6 +28,7 @@ public class WxMpMassNewsArticleGsonAdapter implements JsonSerializer<WxMpMassNe
     return articleJson;
   }
 
+  @Override
   public WxMpMassNews.WxMpMassNewsArticle deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
     JsonObject articleInfo = jsonElement.getAsJsonObject();
     WxMpMassNews.WxMpMassNewsArticle article = new WxMpMassNews.WxMpMassNewsArticle();
